@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الإدارة المدرسية الذكية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: right;
+        }
+        .container {
+            background-color: #3498db;
+            color: white;
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        #result {
+            margin-top: 15px;
+            background-color: white;
+            color: #2c3e50;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: right;
+        }
+        .btn {
+            display: inline-block;
+            background-color: white;
+            color: #3498db;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>الإدارة المدرسية الذكية</h2>
+        <input type="text" id="studentId" placeholder="أدخل رقم الطالب">
+        <input type="text" id="secretCode" placeholder="أدخل الرمز السري">
+        <button onclick="checkStudent()" class="btn">التحقق</button>
+        <a href="students-list.html" class="btn">عرض الطلاب</a>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const students = [
+            // قائمة الطلاب (كما هي في المثال السابق)
+            {
+                "studentId": "OM001", 
+                "secretCode": "5723",
+                "name": "حمد بن سالم الهنائي", 
+                "tribe": "الهنائي",
+                "subjects": {
+                    "التربية الإسلامية": 89,
+                    "اللغة العربية": 92,
+                    "اللغة الإنجليزية": 85,
+                    "الرياضيات": 88,
+                    "العلوم العامة": 90,
+                    "الدراسات الاجتماعية": 86,
+                    "الرياضة المدرسية": 91,
+                    "الفنون التشكيلية": 87,
+                    "الفنون الموسيقية": 84
+                },
+                "total": 782
+            },
+            // ... بقية الطلاب كما في المثال السابق
+        ];
+
+        function checkStudent() {
+            const studentIdInput = document.getElementById('studentId').value;
+            const secretCodeInput = document.getElementById('secretCode').value;
+            const resultDiv = document.getElementById('result');
+
+            const student = students.find(s => 
+                s.studentId === studentIdInput && s.secretCode === secretCodeInput
+            );
+
+            if (student) {
+                let resultHTML = `
+                    <p><strong>الاسم:</strong> ${student.name}</p>
+                    <p><strong>القبيلة:</strong> ${student.tribe}</p>
+                    <p><strong>الدرجات:</strong></p>
+                    <ul>
+                `;
+
+                for (const [subject, grade] of Object.entries(student.subjects)) {
+                    resultHTML += `<li>${subject}: ${grade}</li>`;
+                }
+
+                resultHTML += `
+                    </ul>
+                    <p><strong>المجموع الكلي:</strong> ${student.total}</p>
+                `;
+
+                resultDiv.innerHTML = resultHTML;
+                resultDiv.style.color = '#2c3e50';
+            } else {
+                resultDiv.innerHTML = 'الإدخال خاطئ. تأكد من رقم الطالب والرمز السري.';
+                resultDiv.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>
